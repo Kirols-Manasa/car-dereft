@@ -1,12 +1,11 @@
 import Link from "next/link";
-
-import { LatestPost } from "@/app/_components/post";
 import { auth } from "@/server/auth";
 import { api, HydrateClient } from "@/trpc/server";
+import { LatestPost } from "@/app/_components/post";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
   const session = await auth();
+  const hello = await api.post.hello({ text: "Welcome" });
 
   if (session?.user) {
     void api.post.getLatest.prefetch();
@@ -14,55 +13,110 @@ export default async function Home() {
 
   return (
     <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-            Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
+      <main className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#020617] to-black text-white">
+        {/* HERO */}
+        <section className="mx-auto max-w-7xl px-6 py-24 text-center">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight">
+            Build <span className="text-cyan-400">Modern</span> Web Apps
           </h1>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+          <p className="mt-6 text-lg md:text-xl text-white/70 max-w-2xl mx-auto">
+            منصة حديثة مبنية بـ Next.js + tRPC + Auth  
+            أداء عالي، أمان، وتجربة استخدام راقية.
+          </p>
+
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
+              href={session ? "/dashboard" : "/api/auth/signin"}
+              className="rounded-xl bg-cyan-500 px-8 py-3 font-semibold text-black transition hover:bg-cyan-400"
             >
-              <h3 className="text-2xl font-bold">First Steps →</h3>
-              <div className="text-lg">
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
+              {session ? "الذهاب للوحة التحكم" : "تسجيل الدخول"}
             </Link>
+
             <Link
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 hover:bg-white/20"
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
+              href="#features"
+              className="rounded-xl border border-white/20 px-8 py-3 font-semibold text-white transition hover:bg-white/10"
             >
-              <h3 className="text-2xl font-bold">Documentation →</h3>
-              <div className="text-lg">
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
+              استكشاف المميزات
             </Link>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-2xl text-white">
-              {hello ? hello.greeting : "Loading tRPC query..."}
+        </section>
+
+        {/* FEATURES */}
+        <section
+          id="features"
+          className="mx-auto max-w-7xl px-6 py-20 grid gap-8 md:grid-cols-3"
+        >
+          {[
+            {
+              title: "أداء فائق",
+              desc: "SSR + tRPC لضمان أسرع استجابة ممكنة.",
+              color: "from-cyan-400 to-blue-500",
+            },
+            {
+              title: "أمان متكامل",
+              desc: "مصادقة مبنية على NextAuth ومعايير حديثة.",
+              color: "from-purple-400 to-pink-500",
+            },
+            {
+              title: "قابلية توسّع",
+              desc: "بنية نظيفة قابلة للنمو مع مشروعك.",
+              color: "from-emerald-400 to-teal-500",
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="rounded-2xl bg-white/5 p-6 backdrop-blur border border-white/10 hover:border-white/20 transition"
+            >
+              <div
+                className={`h-1 w-full rounded-full bg-gradient-to-r ${item.color}`}
+              />
+              <h3 className="mt-6 text-2xl font-bold">{item.title}</h3>
+              <p className="mt-3 text-white/70">{item.desc}</p>
+            </div>
+          ))}
+        </section>
+
+        {/* USER STATUS */}
+        <section className="mx-auto max-w-4xl px-6 py-16 text-center">
+          <div className="rounded-3xl bg-white/5 p-10 border border-white/10 backdrop-blur">
+            <p className="text-xl text-white/80">
+              {hello?.greeting}
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-4">
-              <p className="text-center text-2xl text-white">
-                {session && <span>Logged in as {session.user?.name}</span>}
-              </p>
-              <Link
-                href={session ? "/api/auth/signout" : "/api/auth/signin"}
-                className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-              >
-                {session ? "Sign out" : "Sign in"}
-              </Link>
-            </div>
-          </div>
+            {session?.user ? (
+              <>
+                <p className="mt-4 text-2xl font-semibold">
+                  👋 مرحبًا {session.user.name}
+                </p>
 
-          {session?.user && <LatestPost />}
-        </div>
+                <div className="mt-6 flex justify-center gap-4">
+                  <Link
+                    href="/api/auth/signout"
+                    className="rounded-xl bg-red-500/80 px-6 py-2 font-semibold hover:bg-red-500"
+                  >
+                    تسجيل الخروج
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <p className="mt-4 text-white/60">
+                لم تقم بتسجيل الدخول بعد
+              </p>
+            )}
+          </div>
+        </section>
+
+        {/* LATEST POST */}
+        {session?.user && (
+          <section className="mx-auto max-w-4xl px-6 pb-24">
+            <LatestPost />
+          </section>
+        )}
+
+        {/* FOOTER */}
+        <footer className="border-t border-white/10 py-8 text-center text-white/40">
+          © {new Date().getFullYear()} Modern App — All rights reserved
+        </footer>
       </main>
     </HydrateClient>
   );
