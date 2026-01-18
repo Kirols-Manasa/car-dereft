@@ -13,28 +13,28 @@ export default async function Home() {
 
   return (
     <HydrateClient>
-      <main className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#020617] to-black text-white">
+      <main className="min-h-screen bg-gradient-to-br from-[#0D0221] via-[#2A043C] to-[#3E065F] text-white font-sans">
+        
         {/* HERO */}
         <section className="mx-auto max-w-7xl px-6 py-24 text-center">
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight">
-            Build <span className="text-cyan-400">Modern</span> Web Apps
+            مرحباً بك في <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8D00FF] via-[#FF3CAC] to-[#00FFE0]">عالم السحر</span>
           </h1>
           <p className="mt-6 text-lg md:text-xl text-white/70 max-w-2xl mx-auto">
-            منصة حديثة مبنية بـ Next.js + tRPC + Auth  
-            أداء عالي، أمان، وتجربة استخدام راقية.
+            منصة متقدمة بتصميم جذاب، ألوان سحرية، وتجربة مستخدم فريدة.
           </p>
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
               href={session ? "/dashboard" : "/api/auth/signin"}
-              className="rounded-xl bg-cyan-500 px-8 py-3 font-semibold text-black transition hover:bg-cyan-400"
+              className="rounded-2xl bg-gradient-to-r from-[#FF3CAC] via-[#784BA0] to-[#2B86C5] px-8 py-3 font-semibold text-white transition hover:scale-105 hover:shadow-lg"
             >
               {session ? "الذهاب للوحة التحكم" : "تسجيل الدخول"}
             </Link>
 
             <Link
               href="#features"
-              className="rounded-xl border border-white/20 px-8 py-3 font-semibold text-white transition hover:bg-white/10"
+              className="rounded-2xl border border-white/20 px-8 py-3 font-semibold text-white transition hover:bg-white/10 hover:scale-105"
             >
               استكشاف المميزات
             </Link>
@@ -50,22 +50,22 @@ export default async function Home() {
             {
               title: "أداء فائق",
               desc: "SSR + tRPC لضمان أسرع استجابة ممكنة.",
-              color: "from-cyan-400 to-blue-500",
+              color: "from-[#8D00FF] to-[#FF3CAC]",
             },
             {
               title: "أمان متكامل",
-              desc: "مصادقة مبنية على NextAuth ومعايير حديثة.",
-              color: "from-purple-400 to-pink-500",
+              desc: "مصادقة قوية باستخدام أحدث معايير الأمان.",
+              color: "from-[#00FFE0] to-[#0077FF]",
             },
             {
-              title: "قابلية توسّع",
+              title: "قابلية توسع",
               desc: "بنية نظيفة قابلة للنمو مع مشروعك.",
-              color: "from-emerald-400 to-teal-500",
+              color: "from-[#FFDD00] to-[#FF6B00]",
             },
           ].map((item, i) => (
             <div
               key={i}
-              className="rounded-2xl bg-white/5 p-6 backdrop-blur border border-white/10 hover:border-white/20 transition"
+              className="rounded-3xl bg-white/5 p-8 backdrop-blur-xl border border-white/10 hover:border-white/20 hover:shadow-lg transition"
             >
               <div
                 className={`h-1 w-full rounded-full bg-gradient-to-r ${item.color}`}
@@ -78,21 +78,20 @@ export default async function Home() {
 
         {/* USER STATUS */}
         <section className="mx-auto max-w-4xl px-6 py-16 text-center">
-          <div className="rounded-3xl bg-white/5 p-10 border border-white/10 backdrop-blur">
+          <div className="rounded-3xl bg-white/5 p-10 border border-white/10 backdrop-blur-xl">
             <p className="text-xl text-white/80">
-              {hello?.greeting}
+              {hello?.greeting || "Loading..."}
             </p>
 
             {session?.user ? (
               <>
-                <p className="mt-4 text-2xl font-semibold">
+                <p className="mt-4 text-2xl font-semibold text-[#FF3CAC]">
                   👋 مرحبًا {session.user.name}
                 </p>
-
                 <div className="mt-6 flex justify-center gap-4">
                   <Link
                     href="/api/auth/signout"
-                    className="rounded-xl bg-red-500/80 px-6 py-2 font-semibold hover:bg-red-500"
+                    className="rounded-xl bg-gradient-to-r from-[#FF3CAC] via-[#784BA0] to-[#2B86C5] px-6 py-2 font-semibold text-white hover:scale-105 transition shadow-lg"
                   >
                     تسجيل الخروج
                   </Link>
@@ -115,7 +114,7 @@ export default async function Home() {
 
         {/* FOOTER */}
         <footer className="border-t border-white/10 py-8 text-center text-white/40">
-          © {new Date().getFullYear()} Modern App — All rights reserved
+          © {new Date().getFullYear()} منصة السحر — جميع الحقوق محفوظة
         </footer>
       </main>
     </HydrateClient>
