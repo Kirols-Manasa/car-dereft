@@ -114,7 +114,7 @@ export default async function Home() {
 
         {/* FOOTER */}
         <footer className="border-t border-white/10 py-8 text-center text-white/40">
-          © {new Date().getFullYear()} منصة السحر — جميع الحقوق محفوظة
+          © {new Date().getFullYear()} زمنصة السحر — جميع الحقوق محفوظة
         </footer>
       </main>
     </HydrateClient>
